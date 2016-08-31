@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <!--删除苹果默认的工具栏和菜单栏-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <!--设置苹果工具栏颜色-->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!--忽略页面中的数字识别为电话-->
+  <meta name="format-detection" content="telephone=no,email=no">
+
+  <title>Title</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      color: #666;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body, input, label, select, option, textarea, button, fieldset, legend {
+      font: 12px/1.5 Arial, Helvetica, sans-serif, \5b8b\4f53;
+    }
+
+    body, button, textarea, blockquote, fieldset, body, legend, dl, dt, dd, h1, h2, h3, h4, h5, h6, hr, input, ul, ol, p, pre, td, th {
+      margin: 0px;
+      padding: 0px;
+
+    }
+
+    input {
+      border: none;
+    }
+
+    ul, ol {
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    em {
+      font-style: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+
+    /*重置hr，需要自己添加背景颜色*/
+    hr {
+      border: none;
+      height: 1px;
+    }
+    body {
+      padding: 20px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 10px;
+      color: #fff;
+      border:1px solid #eee;
+      background: #077B01;
+    }
+  </style>
+  <script src="node_modules/zepto/dist/zepto.js"></script>
+  <script src="node_modules/zepto/src/touch.js"></script>
+</head>
+<body>
+
+<!--<div class="g-dialog-container">-->
+  <!--<div class="dialog-window">-->
+    <!--<div class="dialog-header"><i class="iconfont">&#xe60e;-->
+    <!--</i></div>-->
+    <!--<div class="dialog-body">你是否要清空购物车？</div>-->
+    <!--<div class="dialog-footer">-->
+      <!--<button>按钮一</button>-->
+      <!--<button class="green">按钮二</button>-->
+      <!--<button class="red">按钮二</button>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+<button id="btn9" style="background-color:red">延时关闭加回调</button>
+<button id="btn10" style="background-color:red">点击遮罩层是否可以关闭</button>
+<button id="btn8">多弹框</button>
+<button id="btn1">没有任何参数传递(需要手动关闭)</button>
+<button id="btn2">弹出一个不带任何按钮，且是警告的框，并且两秒后自动关闭</button>
+<button id="btn3">弹出一个有确认的取消的按钮的成功框，点击按钮直接关闭</button>
+<button id="btn4">弹出一个有确认的警告框，点击按钮不可以关闭(需要手动关闭)</button>
+<button id="btn5">弹出一个多组合的按钮框，且按钮样式可以定制</button>
+<button id="btn6">弹出一个确认和删除的框，点击确认弹出加载框2秒自动关闭，点击删除按钮把上一次框关闭</button>
+<button id="btn7">带动画的弹出框</button>
+<script src="zepto.dialog.js"></script>
+<script>
+//  var d = $.dialog({
+//    //对话框宽高
+//    width:200,
+//    //对话框类型
+//    type:"ok",
+//    buttons:[{type:"red",text:"不好",callback:function(){alert("不好"); return false}},{type:"green",text:"好啊",callback:function(){alert("好啊")}}],
+//    //弹出框多久关闭
+//    //delay:3000,
+//    //对话框提示信息
+//    message:"你还好吗",
+//    //对话框遮罩透明度
+//    maskOpacity:0.5
+//  });
+$("#btn1").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+  });
+});
+$("#btn2").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'warning',
+    delay:2000,
+    message:'2s后自动关闭'
+  });
+});
+$("#btn3").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'ok',
+    buttons:[{text:'确认'},{text:'取消'}]
+  });
+});
+$("#btn4").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'warning',
+    message:'我叫警告框',
+    buttons:[{text:'确认',type:'red',callback:function(){return false;}}],
+
+  });
+});
+$("#btn5").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'waiting',
+    message:'多组合的按钮框，且按钮样式可以定制',
+    buttons:[{text:'确认',callback:function(){return false;}},
+      {text:'好吧',type:'green',callback:function(){alert("点击我可以关闭")}},
+      {text:'好吧',type:'green',callback:function(){alert("点击我可以关闭")}}
+    ],
+
+  });
+});
+$("#btn6").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'warning',
+    message:'弹出一个确认和删除的框，点击去确认弹出加载框2秒自动关闭，点击删除按钮把上一次框关闭',
+    buttons:[{text:'确认',callback:function(){
+      $.dialog({
+        maskClose:true,
+        type:'loading',
+        delay:2000
+      });
+    }},
+      {text:'删除',type:'green',callback:function(){
+        $.dialog({
+          maskClose:true,
+          type:"warning",
+          message:'删除之前的弹窗',
+          buttons:[{text:'删除之前的弹窗',type:'red',callback:function(){
+            d.close();
+            return false;
+          }}]
+        })
+        return false;
+      }},
+    ],
+  });
+});
+$("#btn7").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'ok',
+    buttons:[{text:'确认'},{text:'取消'}],
+    effect:true
+  });
+});
+$("#btn8").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'warning',
+    message:'多弹框的层级关系',
+    buttons:[
+      {text:'弹出第二个框',type:'red',callback:function(){
+        var d = $.dialog();
+        return false;
+      }},
+      {text:'弹出第三个框',type:'red',callback:function(){
+        var d = $.dialog();
+        return false;
+      }}
+
+    ],
+
+  });
+});
+$("#btn9").tap(function(){
+  var d = $.dialog({
+    maskClose:true,
+    type:'warning',
+    message:'延时关闭加回调',
+    delay:2000,
+    delayCallback:function(){
+      alert("延时关闭");
+    },
+  });
+});
+$("#btn10").tap(function(){
+  var d = $.dialog({
+    type:'warning',
+    message:'点击遮罩层关闭',
+    buttons:[
+      {text:'确认',type:'green',callback:function(){
+        alert("ok");
+      }},
+      {text:'取消',type:'red',callback:function(){
+        return false;
+      }}
+    ],
+    maskClose:true,
+  });
+});
+</script>
+</body>
+</html>
