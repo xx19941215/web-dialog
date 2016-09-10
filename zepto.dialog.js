@@ -3,7 +3,6 @@
  */
 ;(function($){
   var Dialog = function(config){
-    var _this = this;
     //默认配置参数
     this.config  = {
       //对话框宽高
@@ -156,7 +155,6 @@
       })
     },
   };
-  window['Dialog'] = Dialog;
   $.dialog = function(config){
     return new Dialog(config);
   }
