@@ -27,7 +27,7 @@ $("button").tap(function(){
 		  maskClose:null
 	})
 });
-
+```
 封装思路
 
 Zepto是一款和jQuery类似的移动端JS框架(应该称之为函数库应该更加准确吧)，但是语法和JQ高度一致，所以上手起来难度也不大。正好借这个组件编写的机会
